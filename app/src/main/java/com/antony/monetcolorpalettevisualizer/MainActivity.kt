@@ -2,18 +2,24 @@ package com.antony.monetcolorpalettevisualizer
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.google.android.material.color.MaterialColors
 
 class MainActivity : AppCompatActivity() {
+    var nightModeState: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val colors = mapOf(
             "colorPrimary" to MaterialColors.getColor(
                 this,
@@ -113,5 +119,22 @@ class MainActivity : AppCompatActivity() {
             textView.setBackgroundColor(color)
             linearlayout.addView(textView)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("asd", "asd")
+        if (nightModeState) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        nightModeState = !nightModeState
+
+        return true
     }
 }
