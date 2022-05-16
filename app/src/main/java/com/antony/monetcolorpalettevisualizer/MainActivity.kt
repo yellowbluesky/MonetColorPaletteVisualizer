@@ -1,8 +1,8 @@
 package com.antony.monetcolorpalettevisualizer
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
@@ -12,13 +12,26 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.color.MaterialColors
 
 class MainActivity : AppCompatActivity() {
-    var nightModeState: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val nightModeStateViewModel =
+            ViewModelProvider(this).get(NightModeStateViewModel::class.java)
+
+        if (nightModeStateViewModel.nightModeState == null) {
+            val nightModeFlags =
+                applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                nightModeStateViewModel.nightModeState = true
+            }
+        }
+
+        // Checks if already night mode, and if so sets the state variable
+
 
         val colors = mapOf(
             "colorPrimary" to MaterialColors.getColor(
@@ -108,33 +121,47 @@ class MainActivity : AppCompatActivity() {
 
         val linearlayout = findViewById<LinearLayout>(R.id.parent)
         for ((text, color) in colors) {
-            val textView = TextView(this)
-            textView.text = text
-            textView.height = 128
-            if (color.blue > 150 || color.red > 150 || color.green > 150) {
-                textView.setTextColor(Color.BLACK)
-            } else {
-                textView.setTextColor(Color.WHITE)
+            TextView(this).let {
+                it.text = text
+                it.height = 128
+                if (color.blue > 150 || color.red > 150 || color.green > 150) {
+                    it.setTextColor(Color.BLACK)
+                } else {
+                    it.setTextColor(Color.WHITE)
+                }
+                it.setBackgroundColor(color)
+                linearlayout.addView(it)
             }
-            textView.setBackgroundColor(color)
-            linearlayout.addView(textView)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
+        menu?.let {
+            menuInflater.inflate(R.menu.menu, it)
+            val menuItem = it.findItem(R.id.status_icon)
+            val nightModeStateViewModel =
+                ViewModelProvider(this).get(NightModeStateViewModel::class.java)
+            if (nightModeStateViewModel.nightModeState!!) {
+                menuItem.setIcon(R.drawable.ic_baseline_wb_sunny_24)
+            } else {
+                menuItem.setIcon(R.drawable.ic_baseline_nights_stay_24)
+            }
+        }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d("asd", "asd")
-        if (nightModeState) {
+        val nightModeStateViewModel =
+            ViewModelProvider(this).get(NightModeStateViewModel::class.java)
+        nightModeStateViewModel.nightModeState = if (!nightModeStateViewModel.nightModeState!!) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            item.setIcon(R.drawable.ic_baseline_wb_sunny_24)
+            true
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            item.setIcon(R.drawable.ic_baseline_nights_stay_24)
+            false
         }
-        nightModeState = !nightModeState
-
         return true
     }
 }
