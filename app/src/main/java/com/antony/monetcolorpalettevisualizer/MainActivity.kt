@@ -22,12 +22,14 @@ class MainActivity : AppCompatActivity() {
         val nightModeStateViewModel =
             ViewModelProvider(this).get(NightModeStateViewModel::class.java)
 
+        // variable is only null if the app is freshly started from scratch
+        // variable is set to true or false depending on what the current mode is
+        // this is important as the default state can vary on system settings
         if (nightModeStateViewModel.nightModeState == null) {
             val nightModeFlags =
                 applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-            if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-                nightModeStateViewModel.nightModeState = true
-            }
+            nightModeStateViewModel.nightModeState =
+                nightModeFlags == Configuration.UI_MODE_NIGHT_YES
         }
 
         // Checks if already night mode, and if so sets the state variable
