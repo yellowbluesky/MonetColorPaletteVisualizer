@@ -2,7 +2,8 @@
 
 Very simple app to display the current color palette, based on your wallpaper
 
-![Screenshot_2022-05-11-20-35-25-281_com antony monetcolorpalettevisualizer](https://user-images.githubusercontent.com/11283778/167830698-55baee7f-f29c-4052-8c6d-e13ad5f43ebe.jpg)
+![Screenshot_2022-05-16-21-00-29-348_com antony monetcolorpalettevisualizer](https://user-images.githubusercontent.com/11283778/168578945-3723b9c4-b788-435d-8c5f-ddfdf83ad99d.jpg)
+
 
 ### TODO
-Toggle for switching between day and night mode
+~~Toggle for switching between day and night mode~~
