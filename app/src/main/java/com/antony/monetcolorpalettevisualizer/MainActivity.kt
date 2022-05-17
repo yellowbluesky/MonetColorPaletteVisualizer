@@ -140,6 +140,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.let {
             menuInflater.inflate(R.menu.menu, it)
+
+            // Sets the correct icon for night.day mode
             val menuItem = it.findItem(R.id.status_icon)
             val nightModeStateViewModel =
                 ViewModelProvider(this).get(NightModeStateViewModel::class.java)
@@ -157,11 +159,9 @@ class MainActivity : AppCompatActivity() {
             ViewModelProvider(this).get(NightModeStateViewModel::class.java)
         nightModeStateViewModel.nightModeState = if (!nightModeStateViewModel.nightModeState!!) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            item.setIcon(R.drawable.ic_baseline_wb_sunny_24)
             true
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            item.setIcon(R.drawable.ic_baseline_nights_stay_24)
             false
         }
         return true
