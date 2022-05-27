@@ -1,4 +1,4 @@
-# MonetColorPaletteVisualizer
+# Monet Color Palette Visualizer
 
 Very simple app to display the current color palette, based on your wallpaper
 
