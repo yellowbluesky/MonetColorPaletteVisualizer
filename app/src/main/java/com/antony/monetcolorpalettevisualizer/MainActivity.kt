@@ -1,5 +1,8 @@
 package com.antony.monetcolorpalettevisualizer
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
@@ -7,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.blue
@@ -132,6 +136,20 @@ class MainActivity : AppCompatActivity() {
                     it.setTextColor(Color.WHITE)
                 }
                 it.setBackgroundColor(color)
+
+                it.setOnClickListener {
+                    // Copies the color to clipboard
+                    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
+                        ClipData.newPlainText("", String.format("#%06X", (0xFFFFFF and color)))
+                    )
+
+                    // Toasts the color for a medium length of time
+                    Toast.makeText(
+                        this,
+                        String.format("#%06X", (0xFFFFFF and color)),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 linearlayout.addView(it)
             }
         }
