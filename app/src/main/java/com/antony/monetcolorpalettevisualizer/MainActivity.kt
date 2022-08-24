@@ -20,6 +20,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.color.MaterialColors
 
 class MainActivity : AppCompatActivity() {
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
