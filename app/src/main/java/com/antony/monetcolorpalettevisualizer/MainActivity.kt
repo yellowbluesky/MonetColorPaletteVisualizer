@@ -130,6 +130,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val linearlayout = findViewById<LinearLayout>(R.id.parent)
+        linearlayout.removeAllViews()
         for ((text, color) in colors) {
             TextView(this).let {
                 it.text = text
